@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+"""this is the dbstorage engine """
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
@@ -41,6 +41,7 @@ class DBStorage:
         self.__session = scoped_session(Session)
     
     def all(self, cls=None):
+        """function to list all ojbect"""
         result_dict = {}
         for class_name, class_type in classname.items():
             if cls is None or cls is class_type:
@@ -51,16 +52,20 @@ class DBStorage:
 
         return result_dict
     def new(self, obj):
+        """function  to add and cmmit """
         self.__session.add(obj)
 
     def save(self):
+        """the save method in the DBstorage class"""
         self.__session.commit()
 
     def delete(self, obj=None):
+        """function to delete"""
         if obj:
             self.__session.delete(obj)
     
     def reload(self):
+        """function to reload objects"""
         Base.metadata.create_all(self.__engine)
         session_maker=sessionmaker(bind=self.__engine, expire_on_commi=False)
         self.__session=scoped_session(session_maker) 
