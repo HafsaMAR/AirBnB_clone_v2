@@ -4,6 +4,8 @@ import unittest
 from models.base_model import BaseModel
 from models import storage
 import os
+from unittest.mock import patch
+from io import StringIO
 
 
 class test_fileStorage(unittest.TestCase):
@@ -40,6 +42,20 @@ class test_fileStorage(unittest.TestCase):
         new = BaseModel()
         temp = storage.all()
         self.assertIsInstance(temp, dict)
+    
+    @patch('sys.stdout', new_callable=StringIO)
+    def test_delete(self):
+        """Function to test deletion"""
+        test_object = BaseModel()
+        test_object.save()  # Save the object to storage
+
+        # Mock user input for the delete command
+        with patch('builtins.input', return_value=f'delete {test_object.__class__.__name__} {test_object.id}'):
+            self.hbnb_command.cmdloop()
+
+        # Validate that the object is deleted from storage
+        self.assertNotIn(test_object.__class__.__name__ + '.' + test_object.id, self.hbnb_command.all())
+
 
     def test_base_model_instantiation(self):
         """ File is not created on BaseModel save """
