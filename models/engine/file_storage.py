@@ -65,4 +65,4 @@ class FileStorage:
         if obj is not None:
             key_obj_all = obj.__class__.__name__ + '.'+obj.id
             print(key_obj_all)
-            del self.all()[key_obj_all]  # kayn mochkil hna
+            del self.all()[key_obj_all] 
