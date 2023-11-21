@@ -119,60 +119,60 @@ class HBNBCommand(cmd.Cmd):
         """This func create object from class name """
         args = args.split(" ")
         class_args = arg[0]
-        if not class_args:
-            print("** class name missing **")
-            return
-        elif class_args not in HBNBCommand.classes:
-            print("** class doesn't exist **")
-            return
-        kwargs = args[1:]
-        new_instance = HBNBCommand.classes[class_args]
-        for key_value in kwargs:
-            [key, value] = key_value.split("=")
-            value = value.replace("_", " ")
-            value = value.replace("\"", "")
-            setattr(new_instance, key, value)
-
-        # if not args or len(args) < 2:
-        #     print("** Usage: create <class_name> <param1> <param2> ... **")
+        # if not class_args:
+        #     print("** class name missing **")
         #     return
-
-        # class_name = args[0]
-        # params = args[1:]
-
-        # if class_name not in HBNBCommand.classes:
-        #     print("** Class doesn't exist **")
+        # elif class_args not in HBNBCommand.classes:
+        #     print("** class doesn't exist **")
         #     return
-        # else:
-        #     parameters = {}
-        # for param in params:
+        # kwargs = args[1:]
+        # new_instance = HBNBCommand.classes[class_args]
+        # for key_value in kwargs:
+        #     [key, value] = key_value.split("=")
+        #     value = value.replace("_", " ")
+        #     value = value.replace("\"", "")
+        #     setattr(new_instance, key, value)
 
-        #     if '=' in param:
-        #         key, value = param.split('=')
-        #         fixedvalue = value.replace('_', ' ').replace('"', '\\"')
-        #         parameters[key] = fixedvalue
+        if not args or len(args) < 2:
+            print("** Usage: create <class_name> <param1> <param2> ... **")
+            return
 
-        #         if '.' in value:
-        #             value = float(value)
-        #             parameters[key] = value
+        class_name = args[0]
+        params = args[1:]
 
-        #         elif value.isdigit():
-        #             value = int(value)
-        #             parameters[key] = value
+        if class_name not in HBNBCommand.classes:
+            print("** Class doesn't exist **")
+            return
+        else:
+            parameters = {}
+        for param in params:
 
-        # parameters.setdefault(
-        #     'created_at', datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%f'))
-        # parameters.setdefault(
-        #     'updated_at', datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%f'))
+            if '=' in param:
+                key, value = param.split('=')
+                fixedvalue = value.replace('_', ' ').replace('"', '\\"')
+                parameters[key] = fixedvalue
 
-        # # Check if 'created_at' and 'updated_at' are not str
-        # for field in ['created_at', 'updated_at']:
-        #     if not isinstance(parameters[field], (str, datetime)):
-        #         print(f"** Invalid format for '{field}' **")
-        #         return
+                if '.' in value:
+                    value = float(value)
+                    parameters[key] = value
 
-        # # Create an instance of the specified class with the given parameters
-        # new_instance = HBNBCommand.classes[class_name](**parameters)
+                elif value.isdigit():
+                    value = int(value)
+                    parameters[key] = value
+
+        parameters.setdefault(
+            'created_at', datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%f'))
+        parameters.setdefault(
+            'updated_at', datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%f'))
+
+        # Check if 'created_at' and 'updated_at' are not str
+        for field in ['created_at', 'updated_at']:
+            if not isinstance(parameters[field], (str, datetime)):
+                print(f"** Invalid format for '{field}' **")
+                return
+
+        # Create an instance of the specified class with the given parameters
+        new_instance = HBNBCommand.classes[class_name](**parameters)
 
         storage.new(new_instance)
         # Save the new instance
