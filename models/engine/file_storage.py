@@ -57,6 +57,7 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
+        """This func create object from class name """
 
         if obj is not None:
             key_obj_all = obj.__class__.__name__ + '.'+obj.id

@@ -116,6 +116,7 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, arg):
+        """This func create object from class name """
         args = shlex.split(arg)
 
         if not args or len(args) < 2:
@@ -131,17 +132,18 @@ class HBNBCommand(cmd.Cmd):
         else:
             parameters = {}
         for param in params:
+
             if '=' in param:
                 key, value = param.split('=')
+                fixedvalue = value.replace('_', ' ').replace('"', '\\"')
+                parameters[key] = fixedvalue
 
-            if value.isdigit():
-                parameters[key] = value
+                if '.' in value:
+                    value = float(value)
+                    parameters[key] = value
 
-            else:
-                if '_' in value:
-                    value2 = value.replace('_', ' ')
-                    parameters[key] = value2
-                else:
+                elif value.isdigit():
+                    value = int(value)
                     parameters[key] = value
 
         parameters.setdefault(
@@ -224,7 +226,7 @@ class HBNBCommand(cmd.Cmd):
         key = c_name + "." + c_id
 
         try:
-            del(storage.all()[key])
+            del (storage.all()[key])
             storage.save()
         except KeyError:
             print("** no instance found **")
@@ -246,11 +248,13 @@ class HBNBCommand(cmd.Cmd):
             for k, v in storage._FileStorage__objects.items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
+
         else:
             for k, v in storage._FileStorage__objects.items():
                 print_list.append(str(v))
 
-        print(print_list)
+        result = "[" + ", ".join(print_list) + "]"
+        print((result))
 
     def help_all(self):
         """ Help information for the all command """
