@@ -133,9 +133,9 @@ class HBNBCommand(cmd.Cmd):
         #     value = value.replace("\"", "")
         #     setattr(new_instance, key, value)
 
-        if not args or len(args) < 2:
-            print("** Usage: create <class_name> <param1> <param2> ... **")
-            return
+        # if not args or len(args) < 2:
+        #     print("** Usage: create <class_name> <param1> <param2> ... **")
+        #     return
 
         class_name = args[0]
         params = args[1:]
