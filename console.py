@@ -115,53 +115,31 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def parse_value(self, value):
-        """cast string to float or int if possible"""
-        is_valid_value = True
-        # To be a valid string it must be of at least length 2 i.e. ""
-        # To be a valid string it must begin and end with
-        # double quoatation i.e. "sdsds"
-        if len(value) >= 2 and value[0] == '"'\
-                and value[len(value) - 1] == '"':
-            value = value[1:-1]
-            value = value.replace("_", " ")
-        else:
-            try:
-                if "." in value:
-                    value = float(value)
-                else:
-                    value = int(value)
-            except ValueError:
-                is_valid_value = False
-
-        if is_valid_value:
-            return value
-        else:
-            return None
-
     def do_create(self, args):
-        """Create an object of any class"""
-        if not args:
+        """This func create object from class name """
+        args = args.split(" ")
+        class_args = args[0]
+        if not class_args:
             print("** class name missing **")
             return
-        args_array = args.split()
-        class_name = args_array[0]
-        if class_name not in HBNBCommand.classes:
+        elif class_args not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[class_name]()
-        for param_index in range(1, len(args_array)):
-            param_array = args_array[param_index].split("=")
-            if len(param_array) == 2:
-                key = param_array[0]
-                if key not in HBNBCommand.valid_keys[class_name]:
-                    continue
-                value = self.parse_value(param_array[1])
-                if value is not None:
+
+        if len(args) == 1:
+            new_instance = HBNBCommand.classes[class_args]()
+        else:
+            kwargs = args[1:]
+            new_instance = HBNBCommand.classes[class_args]()
+            if kwargs:
+                for key_value in kwargs:
+                    key, value = key_value.split( "=")
+                    value = value.replace("_", " ")
+                    value = value.replace("\"", "")
                     setattr(new_instance, key, value)
-                else:
-                    pass
-        new_instance.save()
+        storage.new(new_instance)
+        storage.save()
+
         print(new_instance.id)
 
     def help_create(self):
