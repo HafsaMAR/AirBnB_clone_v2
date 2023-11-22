@@ -126,7 +126,6 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
 
-
         if len(args) == 1:
             new_instance = HBNBCommand.classes[class_args]()
         else:
@@ -135,8 +134,12 @@ class HBNBCommand(cmd.Cmd):
             if kwargs:
                 for key_value in kwargs:
                     key, value = key_value.split("=")
-                    value = value.replace("_", " ")
-                    value = value.replace("\"", "")
+                    if value.startswith('"') and value.endswith('"'):
+                        value = value.replace("_", " ").replace('\\"', '"')
+                    elif '.' in value:
+                        value = float(value)
+                    else:
+                        value = int(value)
                     setattr(new_instance, key, value)
         storage.new(new_instance)
         storage.save()
