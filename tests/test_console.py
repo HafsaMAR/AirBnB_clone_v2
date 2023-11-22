@@ -1,12 +1,12 @@
 #!/usr/bin/python3
+""" Module doc"""
 import unittest
-from console import create
+import console
 
 
-class testConsole(unittest.TestCase):
-    """testing console methods """
+class test_Console(unittest.TestCase):
+    """doc doc"""
 
-    def test_create_object(self):
-        """this func test the create """
-        
-
+    def test_documentation(self):
+        """doc doc"""
+        self.assertIsNotNone(console.__doc__)
