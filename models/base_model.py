@@ -5,8 +5,11 @@ from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, DATETIME, func
 
-Base = declarative_base()
-
+from os import getenv
+if getenv('HBNB_TYPE_STORAGE') == "db":
+    Base = declarative_base()
+else:
+    Base = object
 class BaseModel:
     """A base class for all hbnb models"""
     id = Column(String(60), primary_key = True, unique=True, nullable=True)
