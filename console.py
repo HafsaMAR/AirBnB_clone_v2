@@ -114,7 +114,8 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         """ Overrides the emptyline method of CMD """
         pass
-     def parse_value(self, value):
+
+    def parse_value(self, value):
         """cast string to float or int if possible"""
         is_valid_value = True
         # To be a valid string it must be of at least length 2 i.e. ""
@@ -138,8 +139,8 @@ class HBNBCommand(cmd.Cmd):
         else:
             return None
 
-    def do_create(self, arg):
-       """Create an object of any class"""
+    def do_create(self, args):
+        """Create an object of any class"""
         if not args:
             print("** class name missing **")
             return
@@ -158,8 +159,8 @@ class HBNBCommand(cmd.Cmd):
                 value = self.parse_value(param_array[1])
                 if value is not None:
                     setattr(new_instance, key, value)
-            else:
-                pass
+                else:
+                    pass
         new_instance.save()
         print(new_instance.id)
 
