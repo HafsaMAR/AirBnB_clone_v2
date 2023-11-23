@@ -24,8 +24,7 @@ class DBStorage:
     __session = None
 
     def __init__(self):
-        """Create a new instance of DBStorage."""
-# guillaume@ubuntu:~/AirBnB_v2$ echo 'create User email="gui@hbtn.io" password="guipwd" first_name="Guillaume" last_name="Snow"' | HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db ./console.py
+        """Create  the base class"""
         user = getenv('HBNB_MYSQL_USER')
         password = getenv('HBNB_MYSQL_PWD')
         host = getenv('HBNB_MYSQL_HOST', default='localhost')
@@ -33,7 +32,8 @@ class DBStorage:
         env = getenv('HBNB_ENV')
 
         self.__engine = create_engine(
-            f"mysql+mysqldb://{user}:{password}@{host}/{db}", pool_pre_ping=True)
+            f"mysql+mysqldb://{user}:{password}@{host}/{db}",
+            pool_pre_ping=True)
 
         if env == 'test':
             Base.metadata.drop_all(self.__engine)
@@ -69,6 +69,6 @@ class DBStorage:
     def reload(self):
         """function to reload objects"""
         Base.metadata.create_all(self.__engine)
-        session_maker=sessionmaker(bind=self.__engine, expire_on_commi=False)
-        Session=scoped_session(session_maker)
+        session_maker = sessionmaker(bind=self.__engine, expire_on_commi=False)
+        Session = scoped_session(session_maker)
         self.__session = Session

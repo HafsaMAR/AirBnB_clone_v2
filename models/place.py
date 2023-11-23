@@ -5,6 +5,7 @@ from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
 from sqlalchemy.orm import relationship
 from os import getenv
 
+
 class Place(BaseModel, Base):
     """ A place to stay """
     if getenv('HBNB_TYPE_STORAGE') == 'db':
@@ -20,7 +21,9 @@ class Place(BaseModel, Base):
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
         reviews = relationship('Review', backref='place')
-        amenity_ids = relationship('Amenity', secondary='place_amenity', back_populates='place_amenities', viewonly=False)
+        amenity_ids = relationship(
+            'Amenity', secondary='place_amenity',
+            back_populates='place_amenities', viewonly=False)
     else:
         city_id = ""
         user_id = ""

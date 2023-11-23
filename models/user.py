@@ -5,6 +5,7 @@ from sqlalchemy.orm import relationship, backref
 from os import getenv
 from models.place import Place
 
+
 class User(BaseModel, Base):
     """User class representing the 'users' table in the database."""
 
@@ -15,7 +16,7 @@ class User(BaseModel, Base):
         first_name = Column(String(128), nullable=True)
         last_name = Column(String(128), nullable=True)
         place = relationship('Place', cascade="all, delete", backref='user')
-        reviews = relationship('Review', cascade="all,delete" , backref='user')
+        reviews = relationship('Review', cascade="all,delete", backref='user')
     else:
         email = ""
         password = ""
