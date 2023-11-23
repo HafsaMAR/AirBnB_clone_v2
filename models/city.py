@@ -3,6 +3,8 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship, backref
 from os import getenv
+
+
 class City(BaseModel, Base):
     """City class representing the 'cities' table in the database."""
 
@@ -15,4 +17,3 @@ class City(BaseModel, Base):
     else:
         state_id = ""
         name = ""
-        

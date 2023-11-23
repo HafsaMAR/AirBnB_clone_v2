@@ -57,12 +57,10 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-
         """This func create object from class name """
 
         """Delete all object from object name in the input"""
 
         if obj is not None:
             key_obj_all = obj.__class__.__name__ + '.'+obj.id
-            print(key_obj_all)
-            del self.all()[key_obj_all] 
+            del self.all()[key_obj_all]
