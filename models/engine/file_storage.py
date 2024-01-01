@@ -64,3 +64,6 @@ class FileStorage:
         if obj is not None:
             key_obj_all = obj.__class__.__name__ + '.'+obj.id
             del self.all()[key_obj_all]
+    
+    def close(self):
+        
